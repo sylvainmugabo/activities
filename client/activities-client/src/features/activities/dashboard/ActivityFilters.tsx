@@ -1,4 +1,4 @@
-import { Event, FilterList } from "@mui/icons-material";
+import { FilterList, Event } from "@mui/icons-material";
 import {
   Box,
   ListItemText,
@@ -7,10 +7,10 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import Calendar from "react-calendar";
 
-export const ActivityFilters = () => {
+export default function ActivityFilters() {
   return (
     <Box
       sx={{ display: "flex", flexDirection: "column", gap: 3, borderRadius: 3 }}
@@ -26,7 +26,8 @@ export const ActivityFilters = () => {
               color: "primary.main",
             }}
           >
-            <FilterList sx={{ mr: 1 }} /> Filter
+            <FilterList sx={{ mr: 1 }} />
+            Filters
           </Typography>
           <MenuList>
             <MenuItem>
@@ -36,7 +37,7 @@ export const ActivityFilters = () => {
               <ListItemText primary="I'm going" />
             </MenuItem>
             <MenuItem>
-              <ListItemText primary="Hosting" />
+              <ListItemText primary="I'm hosting" />
             </MenuItem>
           </MenuList>
         </Box>
@@ -51,11 +52,11 @@ export const ActivityFilters = () => {
             color: "primary.main",
           }}
         >
-          <Event sx={{ mr: 1 }}></Event>
+          <Event sx={{ mr: 1 }} />
           Select date
         </Typography>
         <Calendar />
       </Box>
     </Box>
   );
-};
+}

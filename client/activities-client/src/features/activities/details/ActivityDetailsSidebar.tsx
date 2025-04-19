@@ -10,7 +10,7 @@ import {
   Grid2,
 } from "@mui/material";
 
-export const ActivityDetailsSidebar = () => {
+export default function ActivityDetailsSidebar() {
   const following = true;
   const isHost = true;
   return (
@@ -67,4 +67,4 @@ export const ActivityDetailsSidebar = () => {
       </Paper>
     </>
   );
-};
+}

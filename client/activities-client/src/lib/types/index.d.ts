@@ -1,24 +1,24 @@
 type Activity = {
-  id?: string;
+  id: string;
   title: string;
   date: Date;
   description: string;
   category: string;
-  isCancelled?: boolean;
-  city?: string;
+  isCancelled: boolean;
+  city: string;
   venue: string;
   latitude: number;
   longitude: number;
 };
 
-type User = {
+export type User = {
   id: string;
   email: string;
   displayName: string;
   imageUrl?: string;
 };
 
-type LocationIqSuggestion = {
+export type LocationIQSuggestion = {
   place_id: string;
   osm_id: string;
   osm_type: string;
@@ -31,18 +31,21 @@ type LocationIqSuggestion = {
   display_name: string;
   display_place: string;
   display_address: string;
-  address: LocationIqAddress;
+  address: LocationIQAddress;
 };
 
-type LocationIqAddress = {
+export type LocationIQAddress = {
   name: string;
+  house_number: string;
   road: string;
-  suburb: string;
-  city?: string;
+  suburb?: string;
   town?: string;
   village?: string;
+  city?: string;
   county: string;
   state: string;
+  postcode: string;
   country: string;
   country_code: string;
+  neighbourhood?: string;
 };

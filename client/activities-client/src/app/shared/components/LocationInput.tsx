@@ -4,7 +4,7 @@ import {
   useController,
   UseControllerProps,
 } from "react-hook-form";
-import { LocationIqSuggestion } from "../../../lib/types";
+import { LocationIQSuggestion } from "../../../lib/types";
 import {
   Box,
   debounce,
@@ -18,14 +18,13 @@ import axios from "axios";
 type Props<T extends FieldValues> = {
   label: string;
 } & UseControllerProps<T>;
-export const LocationInput = <T extends FieldValues>(props: Props<T>) => {
+
+export default function LocationInput<T extends FieldValues>(props: Props<T>) {
   const { field, fieldState } = useController({ ...props });
   const [loading, setLoading] = useState(false);
-  const [suggestions, setSuggestions] = useState<LocationIqSuggestion[]>([]);
+  const [suggestions, setSuggestions] = useState<LocationIQSuggestion[]>([]);
   const [inputValue, setInputValue] = useState(field.value || "");
 
-  const locationKey = import.meta.env.VITE_LOCATION_KEY;
-  const locationUrl = `https://api.locationiq.com/v1/autocomplete?key=${locationKey}&limit=5&dedupe=1&`;
   useEffect(() => {
     if (field.value && typeof field.value === "object") {
       setInputValue(field.value.venue || "");
@@ -33,16 +32,22 @@ export const LocationInput = <T extends FieldValues>(props: Props<T>) => {
       setInputValue(field.value || "");
     }
   }, [field.value]);
+
+  const locationUrl =
+    "https://api.locationiq.com/v1/autocomplete?key=pk.eac4765ae48c85d19b8b20a979534bf7&limit=5&dedupe=1&";
+
   const fetchSuggestions = useMemo(
     () =>
       debounce(async (query: string) => {
-        if (!query && query.length < 3) {
+        if (!query || query.length < 3) {
           setSuggestions([]);
           return;
         }
+
         setLoading(true);
+
         try {
-          const res = await axios.get<LocationIqSuggestion[]>(
+          const res = await axios.get<LocationIQSuggestion[]>(
             `${locationUrl}q=${query}`
           );
           setSuggestions(res.data);
@@ -60,7 +65,7 @@ export const LocationInput = <T extends FieldValues>(props: Props<T>) => {
     await fetchSuggestions(value);
   };
 
-  const handleSelect = (location: LocationIqSuggestion) => {
+  const handleSelect = (location: LocationIQSuggestion) => {
     const city =
       location.address?.city ||
       location.address?.town ||
@@ -68,10 +73,12 @@ export const LocationInput = <T extends FieldValues>(props: Props<T>) => {
     const venue = location.display_name;
     const latitude = location.lat;
     const longitude = location.lon;
+
     setInputValue(venue);
     field.onChange({ city, venue, latitude, longitude });
     setSuggestions([]);
   };
+
   return (
     <Box>
       <TextField
@@ -99,4 +106,4 @@ export const LocationInput = <T extends FieldValues>(props: Props<T>) => {
       )}
     </Box>
   );
-};
+}

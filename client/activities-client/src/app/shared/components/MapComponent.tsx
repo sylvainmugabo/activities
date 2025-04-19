@@ -1,24 +1,23 @@
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import { MapContainer, Popup, TileLayer, Marker } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { LatLng } from "leaflet";
 
 type Props = {
-  longitude: number;
-  latitude: number;
+  position: [number, number];
   venue: string;
 };
-export const MapComponent = ({ longitude, latitude, venue }: Props) => {
+
+export default function MapComponent({ position, venue }: Props) {
   return (
     <MapContainer
-      center={new LatLng(latitude, longitude)}
+      center={position}
       zoom={13}
       scrollWheelZoom={false}
       style={{ height: "100%" }}
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      <Marker position={[latitude, longitude]}>
+      <Marker position={position}>
         <Popup>{venue}</Popup>
       </Marker>
     </MapContainer>
   );
-};
+}

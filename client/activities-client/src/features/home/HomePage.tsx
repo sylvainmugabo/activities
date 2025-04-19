@@ -2,7 +2,7 @@ import { Group } from "@mui/icons-material";
 import { Box, Button, Paper, Typography } from "@mui/material";
 import { Link } from "react-router";
 
-export const HomePage = () => {
+export default function HomePage() {
   return (
     <Paper
       sx={{
@@ -15,7 +15,7 @@ export const HomePage = () => {
         justifyContent: "center",
         height: "100vh",
         backgroundImage:
-          "linear-gradient(135deg, #182a73 0%, #218aae 69%, #20a7ac 89% )",
+          "linear-gradient(135deg, #182a73 0%, #218aae 69%, #20a7ac 89%)",
       }}
     >
       <Box
@@ -28,9 +28,9 @@ export const HomePage = () => {
         }}
       >
         <Group sx={{ height: 110, width: 110 }} />
-        <Typography variant="h1">Reactivity</Typography>
+        <Typography variant="h1">Reactivities</Typography>
       </Box>
-      <Typography variant="h2">Welcome to Reactivities</Typography>
+      <Typography variant="h2">Welcome to reactivities</Typography>
       <Button
         component={Link}
         to="/activities"
@@ -42,4 +42,4 @@ export const HomePage = () => {
       </Button>
     </Paper>
   );
-};
+}

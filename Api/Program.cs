@@ -12,10 +12,10 @@ using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddControllers(opt =>
+builder.Services.AddControllers(opt => 
 {
-    var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-    opt.Filters.Add(new AuthorizeFilter(policy));
+     var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+     opt.Filters.Add(new AuthorizeFilter(policy));
 });
 builder.Services.AddDbContext<ApplicationContext>(option =>
 {
@@ -38,13 +38,6 @@ builder.Services.AddTransient<ExceptionMiddleware>();
 builder.Services.AddIdentityApiEndpoints<User>(opt => { opt.User.RequireUniqueEmail = true; })
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationContext>();
-builder.Services.ConfigureApplicationCookie(opt =>
-{
-    opt.Cookie.HttpOnly = true;
-    opt.Cookie.SecurePolicy = CookieSecurePolicy.None;
-    opt.Cookie.SameSite = SameSiteMode.Lax;
-
-});
 
 var app = builder.Build();
 

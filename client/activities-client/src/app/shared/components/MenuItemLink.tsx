@@ -1,15 +1,14 @@
 import { MenuItem } from "@mui/material";
-import { yellow } from "@mui/material/colors";
 import { ReactNode } from "react";
 import { NavLink } from "react-router";
 
-export const MenuItemLink = ({
+export default function MenuItemLink({
   children,
   to,
 }: {
   children: ReactNode;
   to: string;
-}) => {
+}) {
   return (
     <MenuItem
       component={NavLink}
@@ -27,4 +26,4 @@ export const MenuItemLink = ({
       {children}
     </MenuItem>
   );
-};
+}

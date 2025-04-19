@@ -5,3 +5,20 @@ Content-Type: application/json
     "email":"bob@test.com",
     "password":"Pa$$w0rd"
 }
+
+### Cookies
+POST http://localhost:5001/api/login?useCookies=true
+Content-Type: application/json
+
+{
+    "email":"bob@test.com",
+    "password":"Pa$$w0rd"
+}
+
+### Get Activities
+GET http://localhost:5001/api/activities
+
+### Get Activities by Id
+GET http://localhost:5001/api/activities/
+###
+GET http://localhost:5001/api/account/user-info

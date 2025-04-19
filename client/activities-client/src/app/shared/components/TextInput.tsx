@@ -1,5 +1,4 @@
 import { TextField, TextFieldProps } from "@mui/material";
-
 import {
   FieldValues,
   useController,
@@ -8,8 +7,9 @@ import {
 
 type Props<T extends FieldValues> = {} & UseControllerProps<T> & TextFieldProps;
 
-export const TextInput = <T extends FieldValues>(props: Props<T>) => {
+export default function TextInput<T extends FieldValues>(props: Props<T>) {
   const { field, fieldState } = useController({ ...props });
+
   return (
     <TextField
       {...props}
@@ -21,4 +21,4 @@ export const TextInput = <T extends FieldValues>(props: Props<T>) => {
       helperText={fieldState.error?.message}
     />
   );
-};
+}

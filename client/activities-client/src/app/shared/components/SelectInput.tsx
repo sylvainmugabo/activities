@@ -6,7 +6,6 @@ import {
   Select,
 } from "@mui/material";
 import { SelectInputProps } from "@mui/material/Select/SelectInput";
-
 import {
   FieldValues,
   useController,
@@ -19,7 +18,7 @@ type Props<T extends FieldValues> = {
 } & UseControllerProps<T> &
   Partial<SelectInputProps>;
 
-export const SelectInput = <T extends FieldValues>(props: Props<T>) => {
+export default function SelectInput<T extends FieldValues>(props: Props<T>) {
   const { field, fieldState } = useController({ ...props });
 
   return (
@@ -39,4 +38,4 @@ export const SelectInput = <T extends FieldValues>(props: Props<T>) => {
       <FormHelperText>{fieldState.error?.message}</FormHelperText>
     </FormControl>
   );
-};
+}

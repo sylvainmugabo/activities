@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { Link } from "react-router";
 
-export const ActivityDetailsChat = () => {
+export default function ActivityDetailsChat() {
   return (
     <>
       <Box
@@ -67,4 +67,4 @@ export const ActivityDetailsChat = () => {
       </Card>
     </>
   );
-};
+}

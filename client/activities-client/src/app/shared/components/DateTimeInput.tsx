@@ -7,8 +7,10 @@ import { DateTimePicker, DateTimePickerProps } from "@mui/x-date-pickers";
 
 type Props<T extends FieldValues> = {} & UseControllerProps<T> &
   DateTimePickerProps<Date>;
-export const DateTimeInput = <T extends FieldValues>(props: Props<T>) => {
+
+export default function DateTimeInput<T extends FieldValues>(props: Props<T>) {
   const { field, fieldState } = useController({ ...props });
+
   return (
     <DateTimePicker
       {...props}
@@ -26,4 +28,4 @@ export const DateTimeInput = <T extends FieldValues>(props: Props<T>) => {
       }}
     />
   );
-};
+}

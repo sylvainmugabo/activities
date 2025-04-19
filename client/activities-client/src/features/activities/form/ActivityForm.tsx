@@ -6,23 +6,24 @@ import { useEffect } from "react";
 import {
   activitySchema,
   ActivitySchema,
-} from "../../../lib/util/schemas/activitySchema";
+} from "../../../lib/schemas/activitySchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { TextInput } from "../../../app/shared/components/TextInput";
-import { SelectInput } from "../../../app/shared/components/SelectInput";
+import TextInput from "../../../app/shared/components/TextInput";
+import SelectInput from "../../../app/shared/components/SelectInput";
+import DateTimeInput from "../../../app/shared/components/DateTimeInput";
+import LocationInput from "../../../app/shared/components/LocationInput";
 import { categoryOptions } from "./categoryOption";
-import { DateTimeInput } from "../../../app/shared/components/DateTimeInput";
-import { LocationInput } from "../../../app/shared/components/LocationInput";
 
-export const ActivityForm = () => {
-  const navigate = useNavigate();
-  const { id } = useParams();
-  const { activity, isLoadingActivity, updateActivity, createActivity } =
-    useActivities(id);
+export default function ActivityForm() {
   const { control, reset, handleSubmit } = useForm<ActivitySchema>({
     mode: "onTouched",
     resolver: zodResolver(activitySchema),
   });
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const { updateActivity, createActivity, activity, isLoadingActivity } =
+    useActivities(id);
+
   useEffect(() => {
     if (activity)
       reset({
@@ -39,7 +40,6 @@ export const ActivityForm = () => {
   const onSubmit = async (data: ActivitySchema) => {
     const { location, ...rest } = data;
     const flattenedData = { ...rest, ...location };
-    console.log(flattenedData);
     try {
       if (activity) {
         updateActivity.mutate(
@@ -57,18 +57,20 @@ export const ActivityForm = () => {
       console.log(error);
     }
   };
-  if (isLoadingActivity) return <Typography>Loading...</Typography>;
+
+  if (isLoadingActivity) return <Typography>Loading activity...</Typography>;
+
   return (
     <Paper sx={{ borderRadius: 3, padding: 3 }}>
       <Typography variant="h5" gutterBottom color="primary">
-        Create Activity
+        {activity ? "Edit activity" : "Create activity"}
       </Typography>
       <Box
         component="form"
+        onSubmit={handleSubmit(onSubmit)}
         display="flex"
         flexDirection="column"
         gap={3}
-        onSubmit={handleSubmit(onSubmit)}
       >
         <TextInput label="Title" control={control} name="title" />
         <TextInput
@@ -81,24 +83,31 @@ export const ActivityForm = () => {
         <Box display="flex" gap={3}>
           <SelectInput
             items={categoryOptions}
-            label="category"
-            name="category"
+            label="Category"
             control={control}
+            name="category"
           />
           <DateTimeInput label="Date" control={control} name="date" />
         </Box>
+
         <LocationInput
           control={control}
           label="Enter the location"
           name="location"
         />
+
         <Box display="flex" justifyContent="end" gap={3}>
           <Button color="inherit">Cancel</Button>
-          <Button color="success" variant="contained" type="submit">
+          <Button
+            type="submit"
+            color="success"
+            variant="contained"
+            disabled={updateActivity.isPending || createActivity.isPending}
+          >
             Submit
           </Button>
         </Box>
       </Box>
     </Paper>
   );
-};
+}

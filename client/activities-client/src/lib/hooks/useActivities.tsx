@@ -1,28 +1,30 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import agent from "../api/agent";
 import { useLocation } from "react-router";
+import { useAccount } from "./useAccount";
+import { Activity } from "../types";
 
 export const useActivities = (id?: string) => {
   const queryClient = useQueryClient();
+  const { currentUser } = useAccount();
   const location = useLocation();
 
-  const { data: activities, isPending } = useQuery({
+  const { data: activities, isLoading } = useQuery({
     queryKey: ["activities"],
     queryFn: async () => {
       const response = await agent.get<Activity[]>("/activities");
       return response.data;
     },
-    enabled: !id && location.pathname === "/activities",
+    enabled: !id && location.pathname === "/activities" && !!currentUser,
   });
 
   const { data: activity, isLoading: isLoadingActivity } = useQuery({
-    queryKey: ["activity", id],
-
+    queryKey: ["activities", id],
     queryFn: async () => {
       const response = await agent.get<Activity>(`/activities/${id}`);
       return response.data;
     },
-    enabled: !!id,
+    enabled: !!id && !!currentUser,
   });
 
   const updateActivity = useMutation({
@@ -35,31 +37,36 @@ export const useActivities = (id?: string) => {
       });
     },
   });
+
+  const createActivity = useMutation({
+    mutationFn: async (activity: Activity) => {
+      const response = await agent.post("/activities", activity);
+      return response.data;
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["activities"],
+      });
+    },
+  });
+
   const deleteActivity = useMutation({
     mutationFn: async (id: string) => {
       await agent.delete(`/activities/${id}`);
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries();
-    },
-  });
-
-  const createActivity = useMutation({
-    mutationFn: async (activity: Activity) => {
-      const response = await agent.post(`/activities`, activity);
-      return response.data;
-    },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries();
+      await queryClient.invalidateQueries({
+        queryKey: ["activities"],
+      });
     },
   });
 
   return {
     activities,
-    isPending,
+    isLoading,
     updateActivity,
-    deleteActivity,
     createActivity,
+    deleteActivity,
     activity,
     isLoadingActivity,
   };

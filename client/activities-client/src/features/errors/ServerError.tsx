@@ -1,10 +1,11 @@
 import { Divider, Paper, Typography } from "@mui/material";
 import { useLocation } from "react-router";
 
-export const ServerError = () => {
+export default function ServerError() {
   const { state } = useLocation();
+
   return (
-    <Paper sx={{}}>
+    <Paper>
       {state.error ? (
         <>
           <Typography
@@ -13,11 +14,11 @@ export const ServerError = () => {
             sx={{ px: 4, pt: 2 }}
             color="secondary"
           >
-            {state.error.message || "There has been an error"}
+            {state.error?.message || "There has been an error"}
           </Typography>
           <Divider />
-          <Typography gutterBottom variant="body1" sx={{ px: 4 }}>
-            {state.error.details || "Internal server error"}
+          <Typography variant="body1" sx={{ p: 4 }}>
+            {state.error?.details || "Internal server error"}
           </Typography>
         </>
       ) : (
@@ -25,4 +26,4 @@ export const ServerError = () => {
       )}
     </Paper>
   );
-};
+}

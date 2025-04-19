@@ -1,17 +1,16 @@
 import { Card, Badge, CardMedia, Box, Typography, Button } from "@mui/material";
-import { Link, useParams } from "react-router";
-import { useActivities } from "../../../lib/hooks/useActivities";
+import { Link } from "react-router";
 import { formatDate } from "../../../lib/util/util";
 
-export const ActivityDetailsHeader = () => {
+type Props = {
+  activity: Activity;
+};
+
+export default function ActivityDetailsHeader({ activity }: Props) {
   const isCancelled = false;
   const isHost = true;
   const isGoing = true;
   const loading = false;
-  const query = useParams();
-  const { activity } = useActivities(query.id);
-
-  if (!activity) return <>Loading...</>;
 
   return (
     <Card
@@ -32,8 +31,8 @@ export const ActivityDetailsHeader = () => {
       <CardMedia
         component="img"
         height="300"
-        image={`/images/categoryImages/travel.jpg`}
-        alt={"travel image"}
+        image={`/images/categoryImages/${activity.category}.jpg`}
+        alt={`${activity.category} image`}
       />
       <Box
         sx={{
@@ -85,7 +84,7 @@ export const ActivityDetailsHeader = () => {
                 variant="contained"
                 color="primary"
                 component={Link}
-                to={`/manage/activityId`}
+                to={`/manage/${activity.id}`}
                 disabled={isCancelled}
               >
                 Manage Event
@@ -105,4 +104,4 @@ export const ActivityDetailsHeader = () => {
       </Box>
     </Card>
   );
-};
+}

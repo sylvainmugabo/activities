@@ -1,19 +1,17 @@
 import { CalendarToday, Info, Place } from "@mui/icons-material";
 import { Box, Button, Divider, Grid2, Paper, Typography } from "@mui/material";
-
 import { formatDate } from "../../../lib/util/util";
 import { Activity } from "../../../lib/types";
 import { useState } from "react";
-import { MapComponent } from "../../../app/shared/components/MapComponent";
+import MapComponent from "../../../app/shared/components/MapComponent";
+
 type Props = {
   activity: Activity;
 };
-export const ActivityDetailsInfo = ({ activity }: Props) => {
+
+export default function ActivityDetailsInfo({ activity }: Props) {
   const [mapOpen, setMapOpen] = useState(false);
 
-  if (!activity) {
-    return <>Loading...</>;
-  }
   return (
     <Paper sx={{ mb: 2 }}>
       <Grid2 container alignItems="center" pl={2} py={1}>
@@ -42,7 +40,7 @@ export const ActivityDetailsInfo = ({ activity }: Props) => {
         <Grid2
           size={11}
           display="flex"
-          justifyContent="center"
+          justifyContent="space-between"
           alignItems="center"
         >
           <Typography>
@@ -56,12 +54,11 @@ export const ActivityDetailsInfo = ({ activity }: Props) => {
       {mapOpen && (
         <Box sx={{ height: 400, zIndex: 1000, display: "block" }}>
           <MapComponent
-            latitude={activity.latitude}
-            longitude={activity.longitude}
+            position={[activity.latitude, activity.longitude]}
             venue={activity.venue}
           />
         </Box>
       )}
     </Paper>
   );
-};
+}
