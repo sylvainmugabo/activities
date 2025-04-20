@@ -1,3 +1,5 @@
+using Domain;
+
 namespace Application.Activities.DTOs;
 
 public class UpdateActivityDto : BaseActivityDto

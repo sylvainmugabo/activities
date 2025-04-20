@@ -6,7 +6,7 @@ using Application.Core;
 using Application.Interfaces;
 using Domain;
 using FluentValidation;
-using Infrastructure;
+using Infrastructure.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -35,11 +35,19 @@ builder.Services.AddMediatR(x =>
 });
 
 builder.Services.AddScoped<IUserAccessor, UserAccessor>();
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy("IsActivityHost", policy =>
+    {
+        policy.Requirements.Add(new HostRequirement());
+    });
+
+builder.Services.AddTransient<IAuthorizationHandler, HostRequirementHandler>();
+
 builder.Services.AddAutoMapper(typeof(AutomapperProfiler).Assembly);
 builder.Services.AddValidatorsFromAssemblyContaining<CreateActivityValidator>();
 builder.Services.AddTransient<ExceptionMiddleware>();
 builder.Services.AddIdentityApiEndpoints<User>(opt => { opt.User.RequireUniqueEmail = true; })
-    .AddRoles<IdentityRole>()
+    .AddRoles<UserRole>()
     .AddEntityFrameworkStores<ApplicationContext>();
 
 var app = builder.Build();

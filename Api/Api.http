@@ -1,9 +1,7 @@
 @Api_HostAddress = https://localhost:5001
+@id = 52d5a0f4-3f5d-4309-9255-2ffd0b19a021
 
-GET {{Api_HostAddress}}/api/Activities
-Accept: application/json
-
-###
+### Get a cookie from a user
 POST {{Api_HostAddress}}/api/login?useCookies=true
 Content-Type: application/json
 
@@ -12,7 +10,16 @@ Content-Type: application/json
     "password":"Pa$$w0rd"
 }
 
-###
+### Get Activities
+GET {{Api_HostAddress}}/api/Activities
+Accept: application/json
+
+### Get Activity
+
+GET {{Api_HostAddress}}/api/Activities/{{id}}
+Accept: application/json
+
+### Post Activity
 POST {{Api_HostAddress}}/api/Activities
 Content-Type: application/json
 
@@ -20,7 +27,22 @@ Content-Type: application/json
   "title": "The event with bob as host",
   "description": "Description of the test event",
   "category": "drinks",
-  
+  "date": "2036-02-04T06:40:28.125",
+  "city": "london",
+  "venue": "london avenue",
+  "latitude": 51.5074,
+  "longitude": -0.1278
+}
+
+### Edit an activity
+PUT {{Api_HostAddress}}/api/Activities/{{id}}
+Content-Type: application/json
+
+{
+  "title": "eve with bob as host",
+  "description": "Description of the test event",
+  "category": "drinks",
+  "date": "2036-02-04T06:40:28.125",
   "city": "london",
   "venue": "london avenue",
   "latitude": 51.5074,

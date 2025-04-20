@@ -2,6 +2,7 @@ using Application.Activities.DTOs;
 using Application.Core;
 using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Activities.Commands;
@@ -17,13 +18,16 @@ public static class UpdateActivity
     {
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var activity = await context.Activities.FindAsync([request.UpdateActivityDto.Id], cancellationToken);
+            var activity = await context
+                .Activities
+                .FindAsync([request.UpdateActivityDto.Id], cancellationToken);
             if (activity == null)
             {
                 return Result<Unit>.Failure("Activity not found", 404);
             }
-            
+
             mapper.Map(request.UpdateActivityDto, activity);
+            
             var result = await context.SaveChangesAsync(cancellationToken) > 0;
             return result
                 ? Result<Unit>.Success(Unit.Value)
