@@ -1,6 +1,4 @@
-@Api_HostAddress = http://localhost:5001
-
-
+@Api_HostAddress = https://localhost:5001
 
 GET {{Api_HostAddress}}/api/Activities
 Accept: application/json
@@ -12,4 +10,19 @@ Content-Type: application/json
 {
     "email":"bob@test.com",
     "password":"Pa$$w0rd"
+}
+
+###
+POST {{Api_HostAddress}}/api/Activities
+Content-Type: application/json
+
+{
+  "title": "The event with bob as host",
+  "description": "Description of the test event",
+  "category": "drinks",
+  
+  "city": "london",
+  "venue": "london avenue",
+  "latitude": 51.5074,
+  "longitude": -0.1278
 }
