@@ -9,6 +9,7 @@ public class ApplicationContext(DbContextOptions<ApplicationContext> options) : 
 {
     public required DbSet<Activity> Activities { get; set; }
     public required DbSet<ActivityAttendee> ActivityAttendees { get; set; }
+    public required DbSet<Photo> Photos { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -24,7 +25,5 @@ public class ApplicationContext(DbContextOptions<ApplicationContext> options) : 
             .HasOne(x => x.Activity)
             .WithMany(x => x.Attendees)
             .HasForeignKey(x => x.ActivityId);
-
-
     }
 };
